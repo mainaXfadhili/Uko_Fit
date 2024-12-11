@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Payment Details</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Booking Summary</h5>
+            <p>Turf: {{ booking.turf.name }}</p>
+            <p>Date: {{ booking.booking_date }}</p>
+            <p>Time: {{ booking.start_time }}</p>
+            <p>Duration: {{ booking.hours }} hour(s)</p>
+            <p>Total Amount: KES {{ booking.total_price }}</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <!-- Add your payment gateway integration here -->
+                <button type="submit" class="btn btn-success">Complete Payment</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

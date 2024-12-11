@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}ChezaDimba - Locations{% endblock %}
+
+{% block hero %}
+<section class="hero text-center">
+    <div class="container">
+        <h1>Our Football Turfs</h1>
+        <p class="lead">Find and book the perfect turf for your game</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        {% for turf in turfs %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1470&auto=format&fit=crop" class="card-img-top" alt="{{ turf.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ turf.name }}</h5>
+                    <p class="card-text">{{ turf.description }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="fas fa-map-marker-alt"></i> {{ turf.location }}
+                        </small>
+                    </p>
+                    <p class="card-text">
+                        <strong>KES {{ turf.price_per_hour }} per hour</strong>
+                    </p>
+                    <a href="{% url 'Dimba:book_turf' turf.id %}" class="btn btn-custom">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>No turfs available at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #218838;
+        color: white;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1470&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
