@@ -5,263 +5,306 @@
 
 {% block extra_css %}
 <style>
-    .resource-section {
+    .resource-header {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        padding: 60px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 50px;
+    }
+
+    .section-container {
         padding: 40px 0;
     }
+
     .section-title {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         color: #333;
+        font-size: 2rem;
+        font-weight: 600;
     }
+
+    .section-title i {
+        margin-right: 10px;
+        color: #28a745;
+    }
+
     .resource-card {
         background: white;
         border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin-bottom: 30px;
         transition: transform 0.3s ease;
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
+
     .resource-card:hover {
         transform: translateY(-5px);
     }
-    .resource-thumbnail {
-        position: relative;
+
+    .resource-image {
         height: 200px;
         overflow: hidden;
-        background-color: #f8f9fa;
+        position: relative;
     }
-    .resource-thumbnail img {
+
+    .resource-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-    .play-button {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #28a745;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        cursor: pointer;
-    }
-    .resource-info {
+
+    .resource-content {
         padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
     }
-    .resource-info h3 {
-        margin: 0;
-        font-size: 1.2rem;
+
+    .resource-title {
+        font-size: 1.25rem;
         margin-bottom: 10px;
         color: #333;
+        font-weight: 600;
     }
+
     .resource-meta {
         color: #6c757d;
         font-size: 0.9rem;
+        margin-bottom: 15px;
     }
+
     .resource-meta i {
         margin-right: 5px;
     }
-    .resource-meta span + span {
-        margin-left: 15px;
+
+    .resource-meta span {
+        margin-right: 15px;
+    }
+
+    .resource-button {
+        margin-top: auto;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        text-align: center;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .resource-button:hover {
+        background: #218838;
+        color: white;
+        text-decoration: none;
+    }
+
+    .section-divider {
+        height: 2px;
+        background: linear-gradient(to right, transparent, #28a745, transparent);
+        margin: 60px 0;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="text-center mb-5">Football Resources</h1>
+<!-- Header Section -->
+<div class="resource-header">
+    <div class="container">
+        <h1><i class="fas fa-futbol"></i> Football Resources</h1>
+        <p class="lead">Enhance your game with our collection of tutorials, training videos, and books</p>
+    </div>
+</div>
 
-    <!-- Tutorials Section -->
-    <section class="resource-section">
+<!-- Tutorials Section -->
+<section class="section-container">
+    <div class="container">
         <h2 class="section-title">
-            <i class="fas fa-star"></i> Skill Tutorials
+            <i class="fas fa-graduation-cap"></i> Skill Tutorials
         </h2>
         <div class="row">
             <!-- Tutorial Card 1 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/tutorials/dribbling.jpg' %}" alt="Dribbling Tutorial">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images\a1.jpg' %}" alt="Dribbling Skills">
                     </div>
-                    <div class="resource-info">
-                        <h3>Advanced Dribbling Techniques</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Advanced Dribbling Skills</h3>
                         <div class="resource-meta">
                             <span><i class="far fa-clock"></i> 15 mins</span>
                             <span><i class="far fa-eye"></i> 10.5K views</span>
                         </div>
+                        <a href="#" class="resource-button">Watch Tutorial</a>
                     </div>
                 </div>
             </div>
 
             <!-- Tutorial Card 2 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/tutorials/shooting.jpg' %}" alt="Shooting Tutorial">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images\a2.jpg' %}" alt="Shooting Skills">
                     </div>
-                    <div class="resource-info">
-                        <h3>Perfect Your Shot</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Perfect Your Shot</h3>
                         <div class="resource-meta">
                             <span><i class="far fa-clock"></i> 20 mins</span>
                             <span><i class="far fa-eye"></i> 8.2K views</span>
                         </div>
+                        <a href="#" class="resource-button">Watch Tutorial</a>
                     </div>
                 </div>
             </div>
 
             <!-- Tutorial Card 3 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/tutorials/passing.jpg' %}" alt="Passing Tutorial">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images/a3.jpg' %}" alt="Passing Skills">
                     </div>
-                    <div class="resource-info">
-                        <h3>Precision Passing</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Precision Passing</h3>
                         <div class="resource-meta">
                             <span><i class="far fa-clock"></i> 18 mins</span>
                             <span><i class="far fa-eye"></i> 7.8K views</span>
                         </div>
+                        <a href="#" class="resource-button">Watch Tutorial</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Training Section -->
-    <section class="resource-section">
+<div class="section-divider"></div>
+
+<!-- Training Section -->
+<section class="section-container">
+    <div class="container">
         <h2 class="section-title">
-            <i class="fas fa-running"></i> Training Videos
+            <i class="fas fa-running"></i> Training Programs
         </h2>
         <div class="row">
             <!-- Training Card 1 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/training/fitness.jpg' %}" alt="Fitness Training">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images/a4.jpg' %}" alt="Fitness Training">
                     </div>
-                    <div class="resource-info">
-                        <h3>Football Fitness Drills</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Football Fitness</h3>
                         <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 30 mins</span>
                             <span><i class="fas fa-fire"></i> High Intensity</span>
+                            <span><i class="far fa-clock"></i> 45 mins</span>
                         </div>
+                        <a href="#" class="resource-button">Start Training</a>
                     </div>
                 </div>
             </div>
 
             <!-- Training Card 2 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/training/agility.jpg' %}" alt="Agility Training">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images/a5.jpg' %}" alt="Agility Training">
                     </div>
-                    <div class="resource-info">
-                        <h3>Agility & Speed Training</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Speed & Agility</h3>
                         <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 25 mins</span>
                             <span><i class="fas fa-fire"></i> Medium Intensity</span>
+                            <span><i class="far fa-clock"></i> 30 mins</span>
                         </div>
+                        <a href="#" class="resource-button">Start Training</a>
                     </div>
                 </div>
             </div>
 
             <!-- Training Card 3 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/training/strength.jpg' %}" alt="Strength Training">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                    <div class="resource-image">
+                        <img src="{% static 'images/a6.jpg' %}" alt="Strength Training">
                     </div>
-                    <div class="resource-info">
-                        <h3>Core Strength Workout</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Core Strength</h3>
                         <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 35 mins</span>
                             <span><i class="fas fa-fire"></i> High Intensity</span>
+                            <span><i class="far fa-clock"></i> 40 mins</span>
                         </div>
+                        <a href="#" class="resource-button">Start Training</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Books Section -->
-    <section class="resource-section">
+<div class="section-divider"></div>
+
+<!-- Books Section -->
+<section class="section-container">
+    <div class="container">
         <h2 class="section-title">
             <i class="fas fa-book"></i> Football Books
         </h2>
         <div class="row">
             <!-- Book Card 1 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/books/tactics.jpg' %}" alt="Football Tactics">
+                    <div class="resource-image">
+                        <img src="{% static 'images/b1.png' %}" alt="Football Tactics">
                     </div>
-                    <div class="resource-info">
-                        <h3>Modern Football Tactics</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Modern Football Tactics</h3>
                         <div class="resource-meta">
-                            <span><i class="fas fa-book"></i> 250 pages</span>
                             <span><i class="fas fa-star"></i> 4.8/5</span>
+                            <span><i class="fas fa-book-open"></i> 250 pages</span>
                         </div>
+                        <a href="#" class="resource-button">Read Now</a>
                     </div>
                 </div>
             </div>
 
             <!-- Book Card 2 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/books/coaching.jpg' %}" alt="Coaching Guide">
+                    <div class="resource-image">
+                        <img src="{% static 'images/b2.png' %}" alt="Coaching Guide">
                     </div>
-                    <div class="resource-info">
-                        <h3>Complete Coaching Guide</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Complete Coaching Guide</h3>
                         <div class="resource-meta">
-                            <span><i class="fas fa-book"></i> 300 pages</span>
                             <span><i class="fas fa-star"></i> 4.9/5</span>
+                            <span><i class="fas fa-book-open"></i> 300 pages</span>
                         </div>
+                        <a href="https://www.amazon.com/Complete-Coaching-Soccer-Systems-Tactics/" class="resource-button">Read Now</a>
                     </div>
                 </div>
             </div>
 
             <!-- Book Card 3 -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-thumbnail">
-                        <img src="{% static 'images/books/nutrition.jpg' %}" alt="Sports Nutrition">
+                    <div class="resource-image">
+                        <img src="{% static 'images/b3.png' %}" alt="Sports Nutrition">
                     </div>
-                    <div class="resource-info">
-                        <h3>Football Nutrition Guide</h3>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Football Nutrition Guide</h3>
                         <div class="resource-meta">
-                            <span><i class="fas fa-book"></i> 200 pages</span>
                             <span><i class="fas fa-star"></i> 4.7/5</span>
+                            <span><i class="fas fa-book-open"></i> 200 pages</span>
                         </div>
+                        <a href="https://www.amazon.com/ULTIMATE-SOCCER-NUTRITION-GUIDE-TRANSFORM/dp/B0CTPV3BNC" class="resource-button">Read Now</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 {% endblock %}

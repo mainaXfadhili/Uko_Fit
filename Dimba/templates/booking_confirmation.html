@@ -1,21 +1,90 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Booking Confirmation - ChezaDimba{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="card">
-        <div class="card-body text-center">
-            <h2 class="text-success">Booking Confirmed!</h2>
-            <div class="booking-details mt-4">
-                <p><strong>Booking Reference:</strong> {{ booking.id }}</p>
-                <p><strong>Turf:</strong> {{ booking.turf.name }}</p>
-                <p><strong>Date:</strong> {{ booking.booking_date }}</p>
-                <p><strong>Time:</strong> {{ booking.start_time }}</p>
-                <p><strong>Duration:</strong> {{ booking.hours }} hour(s)</p>
-                <p><strong>Amount Paid:</strong> KES {{ booking.total_price }}</p>
-                <p><strong>Payment ID:</strong> {{ booking.payment_id }}</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Booking Confirmed!</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 48px;"></i>
+                        <h4 class="mt-3">Thank you for your booking</h4>
+                        <p class="text-muted">Booking Reference: {{ payment_details.booking_reference }}</p>
+                    </div>
+
+                    <div class="booking-details">
+                        <h5>Booking Details</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Turf:</strong> {{ turf.name }}</p>
+                                <p><strong>Date:</strong> {{ booking.date }}</p>
+                                <p><strong>Time:</strong> {{ booking.start_time }} - {{ booking.end_time }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Amount Paid:</strong> KES {{ payment_details.amount }}</p>
+                                <p><strong>Payment Method:</strong> {{ payment_details.payment_method }}</p>
+                                <p><strong>Payment Date:</strong> {{ payment_details.payment_date|date:"F d, Y H:i" }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-details mt-4">
+                        <h5>Location</h5>
+                        <hr>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ turf.location }}</p>
+                        {% if turf.google_maps_link %}
+                            <a href="{{ turf.google_maps_link }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-map"></i> View on Google Maps
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="important-info mt-4">
+                        <h5>Important Information</h5>
+                        <hr>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-info-circle text-info"></i> Please arrive 15 minutes before your booking time</li>
+                            <li><i class="fas fa-info-circle text-info"></i> Bring your own sports equipment</li>
+                            <li><i class="fas fa-info-circle text-info"></i> Booking reference may be required at the venue</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'Dimba:dashboard' %}" class="btn btn-primary">
+                            <i class="fas fa-user"></i> Go to Dashboard
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Confirmation
+                        </a>
+                    </div>
+                </div>
             </div>
-            <a href="{% url 'Dimba:home' %}" class="btn btn-primary mt-3">Back to Home</a>
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-details p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .important-info li {
+        margin-bottom: 0.5rem;
+    }
+    
+    @media print {
+        .btn {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}

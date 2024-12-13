@@ -1,24 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load form_tags %}
 
-{% block title %}ChezaDimba - Register{% endblock %}
-
-{% block hero %}
-<section class="hero text-center">
-    <div class="container">
-        <h1>Join ChezaDimba</h1>
-        <p class="lead">Create your account and start booking football turfs today</p>
-    </div>
-</section>
-{% endblock %}
+{% block title %}Register - ChezaDimba{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body p-4">
-                    <h2 class="text-center mb-4">Create Account</h2>
-                    
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Create an Account</h3>
+                </div>
+                <div class="card-body">
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }}">
@@ -27,111 +21,63 @@
                         {% endfor %}
                     {% endif %}
 
-                    <form method="post">
+                    <form method="POST">
                         {% csrf_token %}
+                        
                         {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {{ field.label }}
-                                </label>
-                                {{ field }}
-                                {% if field.errors %}
-                                    <div class="text-danger">
-                                        {{ field.errors }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                        <div class="form-group mb-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field.errors }}
+                            {{ field|addclass:"form-control" }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                            {% endif %}
+                        </div>
                         {% endfor %}
-                        <button type="submit" class="btn btn-success w-100 py-2">Register</button>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
                     </form>
+
+                    <hr>
                     
-                    <div class="text-center mt-3">
-                        <p>Already have an account? <a href="{% url 'Dimba:login' %}" class="text-success">Login here</a></p>
-                        <p><a href="{% url 'Dimba:home' %}" class="text-muted">Back to Home</a></p>
+                    <div class="text-center">
+                        <p>Already have an account? <a href="{% url 'Dimba:login' %}">Login here</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
 {% block extra_css %}
 <style>
     .card {
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 10px;
     }
-
-    .form-control {
-        margin-bottom: 10px;
-        border-radius: 8px;
-        padding: 10px 15px;
+    
+    .card-header {
+        border-radius: 10px 10px 0 0;
     }
-
-    .btn-success {
-        border-radius: 8px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    
+    .btn-primary {
+        padding: 10px;
+    }
+    
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
     }
 
     .errorlist {
         color: #dc3545;
         list-style: none;
         padding-left: 0;
-        font-size: 0.875rem;
-        margin-top: 5px;
-    }
-
-    .hero {
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                    url('https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1470&auto=format&fit=crop');
-        padding: 80px 0;
-        margin-bottom: 0;
-    }
-
-    .text-success {
-        color: #28a745 !important;
-    }
-
-    .text-success:hover {
-        color: #218838 !important;
-        text-decoration: none;
-    }
-
-    /* Style the form fields from Django */
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px 15px;
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-        border-color: #28a745;
-        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-        outline: none;
-    }
-
-    .alert {
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .alert-success {
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-        color: #155724;
-    }
-
-    .alert-danger {
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-        color: #721c24;
+        margin-bottom: 0.5rem;
     }
 </style>
-{% endblock %} 
+{% endblock %}
+
+{% endblock %}

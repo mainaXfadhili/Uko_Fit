@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Create New Group</h2>
+    <form method="POST" action="{% url 'create_group' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Group Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Group</button>
+        <a href="{% url 'community' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
