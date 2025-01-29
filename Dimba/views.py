@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
@@ -8,17 +8,19 @@ from django.contrib import messages
 from .models import Group, Turf #Booking
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login, logout
+#from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from decimal import Decimal
 from .models import Contact  # Ensure you import the Contact model
+from .models import DiaryEntry
+
 
 def home(request):
     """View function for the home page"""
     turfs = Turf.objects.all()
     return render(request, 'index.html', {'turfs': turfs})
 
-@login_required
+
 def community(request):
     """View function for the community page"""
     if request.method == 'POST':
@@ -115,7 +117,7 @@ def location(request):
     ]
     return render(request, 'location.html', {'turfs': turfs})
 
-def login_view(request):
+'''def login_view(request):
     """View function for user login"""
     if request.method == 'POST':
         username = request.POST['username']
@@ -127,13 +129,13 @@ def login_view(request):
             return redirect(next_url)
         else:
             messages.error(request, 'Invalid username or password.')
-    return render(request, 'login.html')
+    return render(request, 'login.html')'''
 
-def logout_view(request):
-    """View function for user logout"""
-    logout(request)
-    messages.success(request, 'Successfully logged out!')
-    return redirect('Dimba:home')
+'''def logout_view(request):
+"""View function for user logout"""
+logout(request)
+messages.success(request, 'Successfully logged out!')
+return redirect('Dimba:home')
 
 def register(request):
     """View function for user registration"""
@@ -147,7 +149,24 @@ def register(request):
     else:
         form = UserCreationForm()
     
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})'''
+
+from django.shortcuts import render
+
+def videos(request):
+    """View function for the video tutorial page"""
+    return render(request, 'videos.html')
+
+@csrf_exempt
+def save_diary_entry(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        entry = data.get('entry')
+        if entry:
+            DiaryEntry.objects.create(entry=entry)
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False, 'error': 'No entry provided'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def resources(request):
     """View function for the resources page"""
@@ -231,7 +250,7 @@ def resources(request):
 
     return render(request, 'Dimba/resources.html', context)
 
-@login_required
+#@login_required
 def join_group(request, group_id):
     """View function for joining a group"""
     group = get_object_or_404(Group, id=group_id)
@@ -244,7 +263,7 @@ def join_group(request, group_id):
     
     return redirect('Dimba:community')
 
-@login_required
+#@login_required
 def book_turf(request, turf_id):
     """View function for booking a turf"""
     turf = get_object_or_404(Turf, id=turf_id)
@@ -287,7 +306,70 @@ def book_turf(request, turf_id):
     
     return render(request, 'Dimba/book_turf.html', context)
 
-@login_required
+def mealplanning(request):
+    """View function for the meal planning page"""
+    return render(request, 'mealplanning.html')
+
+def save_diary_entry(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        entry = data.get('entry')
+        if entry:
+            DiaryEntry.objects.create(entry=entry)
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False, 'error': 'No entry provided'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def nutritioncalculator(request):
+    """View function for the nutrition calculator page"""
+    return render(request, 'nutritioncalculator.html')
+
+def meditation(request):
+    """View function for the meditation page"""
+    return render(request, 'meditation.html')
+
+def workout(request):
+    """View function for the workout page"""
+    # Check if user wants to return to resources
+    if request.GET.get('return_to_resources'):
+        return redirect('Dimba:resources')
+
+    workout_categories = {
+        'weightLoss': {
+            'cardio': ['Running', 'Cycling', 'Swimming', 'Jump Rope'],
+            'strength': ['Circuit Training', 'Bodyweight Exercises', 'Light Weights'],
+            'hiit': ['Burpees', 'Mountain Climbers', 'Jump Squats'],
+            'yoga': ['Power Yoga', 'Vinyasa Flow', 'Hot Yoga']
+        },
+        'muscleGain': {
+            'cardio': ['Sprint Intervals', 'Rowing', 'Stair Climbing'],
+            'strength': ['Heavy Weight Training', 'Compound Exercises', 'Progressive Overload'],
+            'hiit': ['Weighted HIIT', 'Resistance Training', 'Tabata'],
+            'yoga': ['Power Yoga', 'Strength-Based Yoga', 'Core Power']
+        },
+        'endurance': {
+            'cardio': ['Long Distance Running', 'Cycling', 'Swimming'],
+            'strength': ['Endurance Training', 'Circuit Training', 'Light Weights'],
+            'hiit': ['Endurance HIIT', 'Cardio Intervals', 'Stamina Building'],
+            'yoga': ['Flow Yoga', 'Continuous Movement', 'Dynamic Stretching']
+        },
+        'flexibility': {
+            'cardio': ['Dynamic Stretching', 'Light Cardio', 'Mobility Work'],
+            'strength': ['Dynamic Flexibility', 'Mobility Training', 'Stretching'],
+            'hiit': ['Mobility HIIT', 'Dynamic Movement', 'Flow Sequences'],
+            'yoga': ['Yin Yoga', 'Deep Stretching', 'Flexibility Flow']
+        }
+    }
+
+    context = {
+        'workout_categories': workout_categories,
+        'goals': ['weightLoss', 'muscleGain', 'endurance', 'flexibility'],
+        'workout_types': ['cardio', 'strength', 'hiit', 'yoga']
+    }
+
+    return render(request, 'workout.html', context)
+
+#@login_required
 def payment(request, booking_id):
     """View function for handling payments"""
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
@@ -330,7 +412,7 @@ def payment(request, booking_id):
     
     return render(request, 'Dimba/payment.html', context)
 
-@login_required
+#@login_required
 def booking_confirmation(request, booking_id):
     """View function for displaying booking confirmation"""
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
@@ -358,7 +440,7 @@ def resources(request):
 #     groups = Group.objects.all().order_by('-created_at')
 #     return render(request, 'community.html', {'groups': groups})
 
-@login_required
+#@login_required
 def create_group(request):
     if request.method == 'POST':
         group = Group.objects.create(
@@ -373,19 +455,19 @@ def create_group(request):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
-@login_required
+#@login_required
 def join_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     group.members.add(request.user)
     return JsonResponse({'success': True})
 
-@login_required
+#@login_required
 def leave_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     group.members.remove(request.user)
     return JsonResponse({'success': True})
 
-@login_required
+#@login_required
 def delete_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     if request.user == group.creator:

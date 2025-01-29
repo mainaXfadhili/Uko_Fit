@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gamified Meditation{% endblock %}
+
+{% block extra_css %}
+<style>
+    .meditation-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 50px auto;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .meditation-instructions {
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .progress-bar {
+        height: 20px;
+        background-color: #28a745;
+        width: 0;
+        transition: width 0.5s;
+    }
+
+    .reward {
+        margin-top: 20px;
+        font-size: 1.2em;
+        color: #ffc107;
+    }
+
+    .back-button {
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+    }
+
+    .timer {
+        font-size: 1.5em;
+        margin-top: 20px;
+    }
+
+    .quote {
+        font-style: italic;
+        margin-top: 20px;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="meditation-container">
+        <h1 class="text-center mb-4">Gamified Meditation</h1>
+        <form id="meditationForm">
+            <div class="form-group">
+                <label for="technique">Meditation Technique:</label>
+                <select id="technique" name="technique" class="form-control">
+                    <option value="mindfulness">Mindfulness</option>
+                    <option value="guided">Guided Meditation</option>
+                    <option value="zen">Zen Meditation</option>
+                    <option value="transcendental">Transcendental Meditation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (minutes):</label>
+                <input type="number" id="duration" name="duration" min="1" max="60" value="10" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="music">Background Music:</label>
+                <select id="music" name="music" class="form-control">
+                    <option value="none">None</option>
+                    <option value="nature">Nature Sounds</option>
+                    <option value="ambient">Ambient Music</option>
+                    <option value="binaural">Binaural Beats</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Start Meditation</button>
+        </form>
+        <div id="meditationInstructions" class="meditation-instructions hidden">
+            <h2>Meditation Instructions</h2>
+            <p id="instructions"></p>
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="timer" id="timer"></div>
+            <div class="reward hidden" id="reward">Congratulations! You've earned a reward!</div>
+            <div class="quote" id="quote"></div>
+        </div>
+        <a href="{% url 'Dimba:resources' %}" class="btn btn-secondary back-button">
+            Back to Resources
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const meditationTechniques = {
+    mindfulness: "Sit comfortably and focus on your breath. Notice the sensation of the air entering and leaving your nostrils. If your mind wanders, gently bring your focus back to your breath.",
+    guided: "Listen to a guided meditation audio. Follow the instructions and visualize the scenes described.",
+    zen: "Sit in a comfortable position with your back straight. Focus on your breath and count each inhale and exhale. If you lose count, start over from one.",
+    transcendental: "Sit comfortably and close your eyes. Silently repeat a mantra or word in your mind. If your mind wanders, gently bring your focus back to the mantra."
+};
+
+const motivationalQuotes = [
+    "The mind is everything. What you think you become.",
+    "Peace comes from within. Do not seek it without.",
+    "Meditation is not a means to an end. It is both the means and the end.",
+    "The quieter you become, the more you can hear.",
+    "Meditation is the discovery that the point of life is always arrived at in the immediate moment."
+];
+
+document.getElementById('meditationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const technique = document.getElementById('technique').value;
+    const duration = parseInt(document.getElementById('duration').value);
+    const music = document.getElementById('music').value;
+    
+    const instructions = meditationTechniques[technique];
+    displayMeditationInstructions(instructions, duration, music);
+});
+
+function displayMeditationInstructions(instructions, duration, music) {
+    const instructionsDiv = document.getElementById('meditationInstructions');
+    instructionsDiv.classList.remove('hidden');
+    document.getElementById('instructions').textContent = instructions;
+    
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = '0';
+    progressBar.classList.remove('hidden');
+    
+    const timerDiv = document.getElementById('timer');
+    let timeLeft = duration * 60;
+    const interval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDiv.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        const progress = ((duration * 60 - timeLeft) / (duration * 60)) * 100;
+        progressBar.style.width = `${progress}%`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            document.getElementById('reward').classList.remove('hidden');
+            displayMotivationalQuote();
+        }
+    }, 1000);
+    
+    if (music !== 'none') {
+        playBackgroundMusic(music);
+    }
+}
+
+function displayMotivationalQuote() {
+    const quoteDiv = document.getElementById('quote');
+    const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+    quoteDiv.textContent = motivationalQuotes[randomIndex];
+}
+
+function playBackgroundMusic(music) {
+    const audio = new Audio();
+    switch (music) {
+        case 'nature':
+            audio.src = '{% static "audio/nature.mp3" %}';
+            break;
+        case 'ambient':
+            audio.src = '{% static "audio/ambient.mp3" %}';
+            break;
+        case 'binaural':
+            audio.src = '{% static "audio/binaural.mp3" %}';
+            break;
+    }
+    audio.play();
+}
+</script>
+{% endblock %}

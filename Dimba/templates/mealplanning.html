@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Personalized Meal Planning{% endblock %}
+
+{% block extra_css %}
+<style>
+    .meal-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 50px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .meal-plan {
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .back-button {
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+    }
+
+    .food-db {
+        margin-top: 30px;
+    }
+
+    .food-db h2 {
+        margin-bottom: 20px;
+    }
+
+    .food-item {
+        margin-bottom: 15px;
+    }
+
+    .food-item h5 {
+        margin-bottom: 5px;
+    }
+
+    .food-item p {
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="meal-container">
+        <h1 class="text-center mb-4">Personalized Meal Planning</h1>
+        <form id="mealForm">
+            <div class="form-group">
+                <label for="goal">Dietary Goal:</label>
+                <select id="goal" name="goal" class="form-control">
+                    <option value="weightLoss">Weight Loss</option>
+                    <option value="muscleGain">Muscle Gain</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mealType">Preferred Meal Type:</label>
+                <select id="mealType" name="mealType" class="form-control">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="calories">Daily Caloric Intake (kcal):</label>
+                <input type="number" id="calories" name="calories" min="1200" max="4000" value="2000" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Generate Meal Plan</button>
+        </form>
+        <div id="mealPlan" class="meal-plan hidden">
+            <h2>Your Meal Plan</h2>
+            <p id="planDetails"></p>
+        </div>
+        <a href="{% url 'Dimba:resources' %}" class="btn btn-secondary back-button">
+            Back to Resources
+        </a>
+    </div>
+
+    <div class="food-db">
+        <h2>Local Food Database</h2>
+        <div class="food-item">
+            <h5>Ugali</h5>
+            <p>Calories: 110 kcal per 100g</p>
+            <p>Carbohydrates: 25g</p>
+            <p>Protein: 2g</p>
+            <p>Fat: 0.5g</p>
+        </div>
+        <div class="food-item">
+            <h5>Sukuma Wiki</h5>
+            <p>Calories: 32 kcal per 100g</p>
+            <p>Carbohydrates: 7g</p>
+            <p>Protein: 3g</p>
+            <p>Fat: 0.4g</p>
+        </div>
+        <div class="food-item">
+            <h5>Nyama Choma</h5>
+            <p>Calories: 250 kcal per 100g</p>
+            <p>Carbohydrates: 0g</p>
+            <p>Protein: 26g</p>
+            <p>Fat: 16g</p>
+        </div>
+        <div class="food-item">
+            <h5>Chapati</h5>
+            <p>Calories: 297 kcal per 100g</p>
+            <p>Carbohydrates: 49g</p>
+            <p>Protein: 8g</p>
+            <p>Fat: 7g</p>
+        </div>
+        <div class="food-item">
+            <h5>Githeri</h5>
+            <p>Calories: 150 kcal per 100g</p>
+            <p>Carbohydrates: 28g</p>
+            <p>Protein: 6g</p>
+            <p>Fat: 1g</p>
+        </div>
+        <div class="food-item">
+            <h5>Mandazi</h5>
+            <p>Calories: 350 kcal per 100g</p>
+            <p>Carbohydrates: 50g</p>
+            <p>Protein: 6g</p>
+            <p>Fat: 14g</p>
+        </div>
+        <!-- Add more local foods with nutritional information -->
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const mealData = {
+    weightLoss: {
+        breakfast: [
+            "Oatmeal with fresh fruits",
+            "Smoothie with spinach, banana, and almond milk",
+            "Boiled eggs with avocado toast"
+        ],
+        lunch: [
+            "Grilled chicken salad with mixed greens",
+            "Quinoa bowl with black beans and vegetables",
+            "Vegetable stir-fry with tofu"
+        ],
+        dinner: [
+            "Baked salmon with steamed broccoli",
+            "Lentil soup with a side of mixed vegetables",
+            "Stuffed bell peppers with ground turkey"
+        ],
+        snack: [
+            "Greek yogurt with honey",
+            "Apple slices with peanut butter",
+            "Carrot sticks with hummus"
+        ]
+    },
+    muscleGain: {
+        breakfast: [
+            "Scrambled eggs with whole grain toast",
+            "Protein smoothie with banana and peanut butter",
+            "Greek yogurt with granola and berries"
+        ],
+        lunch: [
+            "Chicken breast with brown rice and vegetables",
+            "Turkey sandwich with whole grain bread",
+            "Beef stir-fry with quinoa"
+        ],
+        dinner: [
+            "Grilled steak with sweet potatoes",
+            "Salmon with wild rice and asparagus",
+            "Pasta with ground beef and marinara sauce"
+        ],
+        snack: [
+            "Protein bar",
+            "Cottage cheese with pineapple",
+            "Mixed nuts and seeds"
+        ]
+    },
+    maintenance: {
+        breakfast: [
+            "Whole grain cereal with milk",
+            "Smoothie with mixed fruits and yogurt",
+            "Egg white omelette with vegetables"
+        ],
+        lunch: [
+            "Tuna salad with whole grain crackers",
+            "Chicken wrap with lettuce and tomato",
+            "Vegetable soup with a side of bread"
+        ],
+        dinner: [
+            "Grilled chicken with mixed vegetables",
+            "Pork chops with mashed potatoes",
+            "Vegetarian chili with cornbread"
+        ],
+        snack: [
+            "Fruit salad",
+            "Cheese and whole grain crackers",
+            "Hummus with vegetable sticks"
+        ]
+    }
+};
+
+document.getElementById('mealForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const goal = document.getElementById('goal').value;
+    const type = document.getElementById('mealType').value;
+    const calories = parseInt(document.getElementById('calories').value);
+    
+    const plan = generateMealPlan(goal, type, calories);
+    displayMealPlan(plan);
+});
+
+function generateMealPlan(goal, type, calories) {
+    const meals = mealData[goal][type];
+    let plan = `
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">${goal} - ${type} Meal Plan (${calories} kcal)</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    ${meals.map(meal => 
+                        `<li class="list-group-item">${meal}</li>`
+                    ).join('')}
+                </ul>
+            </div>
+        </div>`;
+    return plan;
+}
+
+function displayMealPlan(plan) {
+    const planDiv = document.getElementById('mealPlan');
+    planDiv.classList.remove('hidden');
+    document.getElementById('planDetails').innerHTML = plan;
+}
+</script>
+{% endblock %}

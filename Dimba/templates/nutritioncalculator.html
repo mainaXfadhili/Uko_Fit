@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nutrition Calculator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .calculator-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 50px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .nutrition-info {
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .back-button {
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="calculator-container">
+        <h1 class="text-center mb-4">Nutrition Calculator</h1>
+        <form id="nutritionForm">
+            <div class="form-group">
+                <label for="food">Food Item:</label>
+                <select id="food" name="food" class="form-control">
+                    <option value="ugali">Ugali</option>
+                    <option value="sukumaWiki">Sukuma Wiki</option>
+                    <option value="nyamaChoma">Nyama Choma</option>
+                    <option value="chapati">Chapati</option>
+                    <option value="githeri">Githeri</option>
+                    <option value="mandazi">Mandazi</option>
+                    <option value="rice">Rice</option>
+                    <option value="beans">Beans</option>
+                    <option value="fish">Fish</option>
+                    <option value="sweetPotato">Sweet Potato</option>
+                    <option value="arrowroot">Arrowroot</option>
+                    <option value="pumpkin">Pumpkin</option>
+                    <option value="spinach">Spinach</option>
+                    <option value="cabbage">Cabbage</option>
+                    <option value="mango">Mango</option>
+                    <option value="banana">Banana</option>
+                    <option value="pineapple">Pineapple</option>
+                    <option value="avocado">Avocado</option>
+                    <option value="milk">Milk</option>
+                    <option value="yogurt">Yogurt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity (grams):</label>
+                <input type="number" id="quantity" name="quantity" min="1" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Calculate Nutrition</button>
+        </form>
+        <div id="nutritionInfo" class="nutrition-info hidden">
+            <h2>Nutritional Information</h2>
+            <p id="nutritionDetails"></p>
+        </div>
+        <a href="{% url 'Dimba:resources' %}" class="btn btn-secondary back-button">
+            Back to Resources
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const foodData = {
+    ugali: {
+        calories: 110,
+        carbohydrates: 25,
+        protein: 2,
+        fat: 0.5
+    },
+    sukumaWiki: {
+        calories: 32,
+        carbohydrates: 7,
+        protein: 3,
+        fat: 0.4
+    },
+    nyamaChoma: {
+        calories: 250,
+        carbohydrates: 0,
+        protein: 26,
+        fat: 16
+    },
+    chapati: {
+        calories: 297,
+        carbohydrates: 49,
+        protein: 8,
+        fat: 7
+    },
+    githeri: {
+        calories: 150,
+        carbohydrates: 28,
+        protein: 6,
+        fat: 1
+    },
+    mandazi: {
+        calories: 350,
+        carbohydrates: 50,
+        protein: 6,
+        fat: 14
+    },
+    rice: {
+        calories: 130,
+        carbohydrates: 28,
+        protein: 2.7,
+        fat: 0.3
+    },
+    beans: {
+        calories: 347,
+        carbohydrates: 63,
+        protein: 21,
+        fat: 1.2
+    },
+    fish: {
+        calories: 206,
+        carbohydrates: 0,
+        protein: 22,
+        fat: 12
+    },
+    sweetPotato: {
+        calories: 86,
+        carbohydrates: 20,
+        protein: 1.6,
+        fat: 0.1
+    },
+    arrowroot: {
+        calories: 65,
+        carbohydrates: 13,
+        protein: 4.2,
+        fat: 0.2
+    },
+    pumpkin: {
+        calories: 26,
+        carbohydrates: 6.5,
+        protein: 1,
+        fat: 0.1
+    },
+    spinach: {
+        calories: 23,
+        carbohydrates: 3.6,
+        protein: 2.9,
+        fat: 0.4
+    },
+    cabbage: {
+        calories: 25,
+        carbohydrates: 5.8,
+        protein: 1.3,
+        fat: 0.1
+    },
+    mango: {
+        calories: 60,
+        carbohydrates: 15,
+        protein: 0.8,
+        fat: 0.4
+    },
+    banana: {
+        calories: 89,
+        carbohydrates: 23,
+        protein: 1.1,
+        fat: 0.3
+    },
+    pineapple: {
+        calories: 50,
+        carbohydrates: 13,
+        protein: 0.5,
+        fat: 0.1
+    },
+    avocado: {
+        calories: 160,
+        carbohydrates: 9,
+        protein: 2,
+        fat: 15
+    },
+    milk: {
+        calories: 42,
+        carbohydrates: 5,
+        protein: 3.4,
+        fat: 1
+    },
+    yogurt: {
+        calories: 59,
+        carbohydrates: 3.6,
+        protein: 10,
+        fat: 0.4
+    }
+};
+
+document.getElementById('nutritionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const food = document.getElementById('food').value;
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    const nutrition = calculateNutrition(food, quantity);
+    displayNutritionInfo(nutrition);
+});
+
+function calculateNutrition(food, quantity) {
+    const foodItem = foodData[food];
+    const calories = (foodItem.calories * quantity) / 100;
+    const carbohydrates = (foodItem.carbohydrates * quantity) / 100;
+    const protein = (foodItem.protein * quantity) / 100;
+    const fat = (foodItem.fat * quantity) / 100;
+    
+    return {
+        calories: calories.toFixed(2),
+        carbohydrates: carbohydrates.toFixed(2),
+        protein: protein.toFixed(2),
+        fat: fat.toFixed(2)
+    };
+}
+
+function displayNutritionInfo(nutrition) {
+    const nutritionDiv = document.getElementById('nutritionInfo');
+    nutritionDiv.classList.remove('hidden');
+    document.getElementById('nutritionDetails').innerHTML = `
+        <p>Calories: ${nutrition.calories} kcal</p>
+        <p>Carbohydrates: ${nutrition.carbohydrates} g</p>
+        <p>Protein: ${nutrition.protein} g</p>
+        <p>Fat: ${nutrition.fat} g</p>
+    `;
+}
+</script>
+{% endblock %}

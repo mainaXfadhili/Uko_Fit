@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Interactive Workout Plan{% endblock %}
+
+{% block extra_css %}
+<style>
+    .workout-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .workout-plan {
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .back-button {
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="workout-container">
+        <h1 class="text-center mb-4">Personalized Workout Plan</h1>
+        <form id="workoutForm">
+            <div class="form-group">
+                <label for="goal">Fitness Goal:</label>
+                <select id="goal" name="goal" class="form-control">
+                    <option value="weightLoss">Weight Loss</option>
+                    <option value="muscleGain">Muscle Gain</option>
+                    <option value="endurance">Endurance</option>
+                    <option value="flexibility">Flexibility</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="workoutType">Preferred Workout Type:</label>
+                <select id="workoutType" name="workoutType" class="form-control">
+                    <option value="cardio">Cardio</option>
+                    <option value="strength">Strength Training</option>
+                    <option value="hiit">HIIT</option>
+                    <option value="yoga">Yoga</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Workout Duration (minutes):</label>
+                <input type="number" id="duration" name="duration" min="10" max="120" value="30" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Generate Workout Plan</button>
+        </form>
+        <div id="workoutPlan" class="workout-plan hidden">
+            <h2>Your Workout Plan</h2>
+            <p id="planDetails"></p>
+        </div>
+        <a href="{% url 'Dimba:resources' %}" class="btn btn-secondary back-button">
+            Back to Resources
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const workoutData = {
+    weightLoss: {
+        cardio: [
+            "10 minutes warm-up walking/jogging",
+            "20 minutes high-intensity interval running",
+            "10 minutes cool-down walking",
+            "5 minutes stretching"
+        ],
+        strength: [
+            "3 sets of 15 bodyweight squats",
+            "3 sets of 12 push-ups",
+            "3 sets of 20 lunges",
+            "3 sets of 30-second planks"
+        ],
+        hiit: [
+            "30 seconds jumping jacks, 15 seconds rest",
+            "30 seconds mountain climbers, 15 seconds rest",
+            "30 seconds burpees, 15 seconds rest",
+            "30 seconds high knees, 15 seconds rest"
+        ],
+        yoga: [
+            "Sun Salutation sequence",
+            "Warrior pose series",
+            "Balance poses",
+            "Power yoga flow"
+        ]
+    },
+    muscleGain: {
+        cardio: [
+            "5 minutes warm-up",
+            "4 sets of 30-second sprints",
+            "2 minutes active recovery between sets",
+            "5 minutes cool-down"
+        ],
+        strength: [
+            "4 sets of 8-12 barbell squats",
+            "4 sets of 8-12 bench press",
+            "4 sets of 8-12 deadlifts",
+            "4 sets of 8-12 rows"
+        ],
+        hiit: [
+            "45 seconds kettlebell swings, 15 seconds rest",
+            "45 seconds weighted squats, 15 seconds rest",
+            "45 seconds dumbbell rows, 15 seconds rest",
+            "45 seconds weighted lunges, 15 seconds rest"
+        ],
+        yoga: [
+            "Power Vinyasa sequence",
+            "Strength-building poses",
+            "Core power series",
+            "Advanced balancing poses"
+        ]
+    },
+    endurance: {
+        cardio: [
+            "10 minutes warm-up",
+            "40 minutes steady-state running",
+            "10 minutes cool-down",
+            "Stretching routine"
+        ],
+        strength: [
+            "3 sets of 15-20 bodyweight exercises",
+            "Circuit training with minimal rest",
+            "Endurance-focused compound movements",
+            "Core stability work"
+        ],
+        hiit: [
+            "40 seconds work, 20 seconds rest intervals",
+            "Full-body compound movements",
+            "6-8 different exercises",
+            "3-4 rounds total"
+        ],
+        yoga: [
+            "Flowing sequences",
+            "Extended hold poses",
+            "Balance work",
+            "Breath control practice"
+        ]
+    },
+    flexibility: {
+        cardio: [
+            "Dynamic stretching warm-up",
+            "Light cardio intervals",
+            "Mobility drills",
+            "Cool-down stretches"
+        ],
+        strength: [
+            "Full range of motion exercises",
+            "Mobility-focused movements",
+            "Isometric holds",
+            "Dynamic flexibility work"
+        ],
+        hiit: [
+            "Dynamic movement patterns",
+            "Mobility-focused intervals",
+            "Flow sequences",
+            "Recovery stretches"
+        ],
+        yoga: [
+            "Deep stretching sequences",
+            "Yin yoga poses",
+            "Joint mobility work",
+            "Relaxation practice"
+        ]
+    }
+};
+
+document.getElementById('workoutForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const goal = document.getElementById('goal').value;
+    const type = document.getElementById('workoutType').value;
+    const duration = parseInt(document.getElementById('duration').value);
+    
+    const plan = generateWorkoutPlan(goal, type, duration);
+    displayWorkoutPlan(plan);
+});
+
+function generateWorkoutPlan(goal, type, duration) {
+    const exercises = workoutData[goal][type];
+    let plan = `
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">${goal} - ${type} Workout (${duration} minutes)</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    ${exercises.map(exercise => 
+                        `<li class="list-group-item">${exercise}</li>`
+                    ).join('')}
+                </ul>
+            </div>
+        </div>`;
+    return plan;
+}
+
+function displayWorkoutPlan(plan) {
+    const planDiv = document.getElementById('workoutPlan');
+    planDiv.classList.remove('hidden');
+    document.getElementById('planDetails').innerHTML = plan;
+}
+</script>
+{% endblock %}

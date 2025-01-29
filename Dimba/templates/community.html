@@ -1,67 +1,223 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Join Our Fitness Community | Uko Fit{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    .community-header {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .create-group-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        background: #28a745;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .btn:hover {
+        background: #218838;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="community-header">
-        <h1>Football Community</h1>
-        <p>Connect with football enthusiasts, join discussions, and share your passion for the game</p>
+<header>
+    <div class="logo">Uko Fit</div>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#">Challenges</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        <a href="#" class="btn donate">Donate</a>
+        <a href="#" class="btn sign-in">Sign In</a>
     </div>
+</header>
 
-    <!-- Group Creation Form -->
-    <div class="create-group-card">
-        <h2>Create New Group</h2>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="group_name">Group Name</label>
-                <input type="text" class="form-control" id="group_name" name="group_name" required>
-            </div>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" class="form-control" id="location" name="location" required>
-            </div>
-            <div class="form-group">
-                <label for="skill_level">Skill Level</label>
-                <input type="text" class="form-control" id="skill_level" name="skill_level" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">Group Image</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-            </div>
-            <button type="submit" class="btn btn-success">Create Group</button>
-        </form>
+<section class="hero">
+    <div class="hero-content">
+        <h1>JOIN OUR FITNESS COMMUNITY</h1>
+        <p>Stay motivated, achieve your fitness goals, and connect with like-minded individuals.</p>
+        <a href="#" class="btn primary">Get Started</a>
     </div>
+    <div class="hero-image">
+        <img src="{% static 'hero-fitness.png' %}" alt="Fitness Community">
+    </div>
+</section>
 
-    <!-- Available Groups Section -->
-    <div class="row">
-        <h2>Available Groups</h2>
-        <div class="row">
-            {% for group in groups %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if group.image %}
-                        <img src="{{ group.image.url }}" class="card-img-top" alt="{{ group.name }}" style="height: 200px; object-fit: cover;">
-                    {% else %}
-                        <img src="{% static 'images/default_group.jpg' %}" class="card-img-top" alt="{{ group.name }}" style="height: 200px; object-fit: cover;">
-                    {% endif %}
-                    <div class="group-info">
-                        <h3>{{ group.name }}</h3>
-                        <p>{{ group.description }}</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> {{ group.location }}</span>
-                            <span><i class="fas fa-signal"></i> {{ group.skill_level }}</span>
-                        </div>
-                        <a href="{% url 'Dimba:join_group' group.id %}" class="btn-join">Join Group</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+<section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+        <div class="step">
+            <img src="{% static 'upload.png' %}" alt="Upload Progress">
+            <h3>Track Your Progress</h3>
+            <p>Upload your workouts and track your fitness journey.</p>
+        </div>
+        <div class="step">
+            <img src="{% static 'join.png' %}" alt="Join Challenges">
+            <h3>Join Challenges</h3>
+            <p>Compete in fitness challenges and stay motivated.</p>
+        </div>
+        <div class="step">
+            <img src="{% static 'win.png' %}" alt="Win Rewards">
+            <h3>Earn Rewards</h3>
+            <p>Achieve milestones and win exciting rewards.</p>
         </div>
     </div>
-</div>
+</section>
+
+<section class="search-community">
+    <h2>FIND YOUR FITNESS COMMUNITY</h2>
+    <input type="text" placeholder="Enter your city or gym name">
+    <button class="btn search">Search</button>
+</section>
+
+<section class="featured">
+    <h2>Featured Fitness Communities</h2>
+    <div class="community-grid">
+        <div class="community">
+            <img src="{% static 'yoga.jpg' %}" alt="Yoga Group">
+            <h3>Yoga Warriors</h3>
+        </div>
+        <div class="community">
+            <img src="{% static 'crossfit.jpg' %}" alt="CrossFit">
+            <h3>CrossFit Hustlers</h3>
+        </div>
+        <div class="community">
+            <img src="{% static 'marathon.jpg' %}" alt="Marathon Runners">
+            <h3>Marathon Sprinters</h3>
+        </div>
+    </div>
+</section>
+
+<section class="build-community">
+    <h2>Build Your Own Fitness Community</h2>
+    <div class="options">
+        <div class="option">
+            <h3>Stay Updated</h3>
+            <p>Get fitness news and tips.</p>
+            <input type="email" placeholder="Enter your email">
+            <button class="btn subscribe">Subscribe</button>
+        </div>
+        <div class="option">
+            <h3>Donate to Support</h3>
+            <p>Help fund fitness programs.</p>
+            <button class="btn donate">Donate</button>
+        </div>
+        <div class="option">
+            <h3>Join as a Coach</h3>
+            <p>Inspire and train others.</p>
+            <button class="btn apply">Apply Now</button>
+        </div>
+    </div>
+</section>
+
+<section class="news">
+    <h2>News and Stories</h2>
+    <div class="articles">
+        <div class="article">
+            <img src="{% static 'transformation.jpg' %}" alt="Transformation">
+            <h3>John's 6-Month Transformation</h3>
+            <p>How he lost 20kg and built confidence.</p>
+            <button class="btn read-more">Read More</button>
+        </div>
+        <div class="article">
+            <img src="{% static 'run.jpg' %}" alt="Running Tips">
+            <h3>10 Tips for Long Distance Running</h3>
+            <p>Improve endurance with these expert tips.</p>
+            <button class="btn read-more">Read More</button>
+        </div>
+        <div class="article">
+            <img src="{% static 'meal.jpg' %}" alt="Healthy Eating">
+            <h3>Best Post-Workout Meals</h3>
+            <p>What to eat for maximum recovery.</p>
+            <button class="btn read-more">Read More</button>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <h2>Explore the Uko Fit Community</h2>
+    <div class="stats-grid">
+        <div class="stat"><span>500+</span> Gyms Registered</div>
+        <div class="stat"><span>1,200+</span> Fitness Enthusiasts</div>
+        <div class="stat"><span>350+</span> Trainers Available</div>
+        <div class="stat"><span>50+</span> Active Challenges</div>
+    </div>
+</section>
+
+<section class="gallery">
+    <h2>Community Highlights</h2>
+    <div class="gallery-grid">
+        <img src="{% static 'workout1.jpg' %}" alt="Workout">
+        <img src="{% static 'teamwork.jpg' %}" alt="Team Workout">
+        <img src="{% static 'motivation.jpg' %}" alt="Motivation">
+        <img src="{% static 'gym.jpg' %}" alt="Gym Community">
+    </div>
+</section>
+
+<section class="create-group-card">
+    <h2>Create New Group</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="group_name">Group Name</label>
+            <input type="text" class="form-control" id="group_name" name="group_name" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <button type="submit" class="btn">Create Group</button>
+    </form>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="logo">Uko Fit</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Challenges</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="socials">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <p>&copy; 2025 Uko Fit. All Rights Reserved.</p>
+</footer>
 {% endblock %}

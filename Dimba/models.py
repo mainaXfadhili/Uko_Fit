@@ -43,3 +43,10 @@ class Turf(models.Model):
     
     def __str__(self):
         return self.name
+    
+class DiaryEntry(models.Model):
+    entry = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.entry[:50]

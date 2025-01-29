@@ -17,294 +17,199 @@
         padding: 40px 0;
     }
 
-    .section-title {
-        text-align: center;
-        margin-bottom: 40px;
-        color: #333;
-        font-size: 2rem;
-        font-weight: 600;
-    }
-
-    .section-title i {
-        margin-right: 10px;
-        color: #28a745;
-    }
-
     .resource-card {
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        overflow: hidden;
-        margin-bottom: 30px;
-        transition: transform 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
     }
 
     .resource-card:hover {
         transform: translateY(-5px);
     }
 
-    .resource-image {
-        height: 200px;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .resource-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .resource-content {
-        padding: 20px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .resource-title {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-        color: #333;
-        font-weight: 600;
-    }
-
-    .resource-meta {
-        color: #6c757d;
-        font-size: 0.9rem;
+    .resource-icon {
+        font-size: 40px;
+        color: #28a745;
         margin-bottom: 15px;
     }
 
-    .resource-meta i {
-        margin-right: 5px;
+    .expert-profile {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
     }
 
-    .resource-meta span {
+    .expert-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
         margin-right: 15px;
-    }
-
-    .resource-button {
-        margin-top: auto;
-        padding: 10px 20px;
-        background: #28a745;
-        color: white;
-        border: none;
-        border-radius: 25px;
-        text-align: center;
-        text-decoration: none;
-        transition: background 0.3s ease;
-    }
-
-    .resource-button:hover {
-        background: #218838;
-        color: white;
-        text-decoration: none;
-    }
-
-    .section-divider {
-        height: 2px;
-        background: linear-gradient(to right, transparent, #28a745, transparent);
-        margin: 60px 0;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Header Section -->
 <div class="resource-header">
-    <div class="container">
-        <h1><i class="fas fa-futbol"></i> Football Resources</h1>
-        <p class="lead">Enhance your game with our collection of tutorials, training videos, and books</p>
-    </div>
+    <h1>Fitness Resources & Expert Guidance</h1>
+    <p>Your complete guide to a healthier lifestyle</p>
 </div>
 
-<!-- Tutorials Section -->
-<section class="section-container">
-    <div class="container">
-        <h2 class="section-title">
-            <i class="fas fa-graduation-cap"></i> Skill Tutorials
-        </h2>
+<div class="container">
+    <!-- Fitness Section -->
+    <section class="section-container">
+        <h2 class="text-center mb-4">Fitness Resources</h2>
         <div class="row">
-            <!-- Tutorial Card 1 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images\a1.jpg' %}" alt="Dribbling Skills">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Advanced Dribbling Skills</h3>
-                        <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 15 mins</span>
-                            <span><i class="far fa-eye"></i> 10.5K views</span>
-                        </div>
-                        <a href="#" class="resource-button">Watch Tutorial</a>
-                    </div>
+                    <i class="fas fa-dumbbell resource-icon"></i>
+                    <h3>Workout Plans</h3>
+                    <p>Customized training programs for all fitness levels</p>
+                    <a href="{% url 'Dimba:workout' %}" class="btn btn-success">View Plans</a>
                 </div>
             </div>
-
-            <!-- Tutorial Card 2 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images\a2.jpg' %}" alt="Shooting Skills">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Perfect Your Shot</h3>
-                        <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 20 mins</span>
-                            <span><i class="far fa-eye"></i> 8.2K views</span>
-                        </div>
-                        <a href="#" class="resource-button">Watch Tutorial</a>
-                    </div>
+                    <i class="fas fa-running resource-icon"></i>
+                    <h3>Exercise Library</h3>
+                    <p>Step-by-step guides for proper form and technique</p>
+                    <a href="#" class="btn btn-success">Browse Exercises</a>
                 </div>
             </div>
-
-            <!-- Tutorial Card 3 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/a3.jpg' %}" alt="Passing Skills">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Precision Passing</h3>
-                        <div class="resource-meta">
-                            <span><i class="far fa-clock"></i> 18 mins</span>
-                            <span><i class="far fa-eye"></i> 7.8K views</span>
-                        </div>
-                        <a href="#" class="resource-button">Watch Tutorial</a>
-                    </div>
+                    <i class="fas fa-heart resource-icon"></i>
+                    <h3>Cardio Workouts</h3>
+                    <p>Heart-pumping routines for endurance building</p>
+                    <a href="#" class="btn btn-success">Get Started</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div class="section-divider"></div>
-
-<!-- Training Section -->
-<section class="section-container">
-    <div class="container">
-        <h2 class="section-title">
-            <i class="fas fa-running"></i> Training Programs
-        </h2>
+    <!-- Nutrition Section -->
+    <section class="section-container">
+        <h2 class="text-center mb-4">Nutrition Guidelines</h2>
         <div class="row">
-            <!-- Training Card 1 -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/a4.jpg' %}" alt="Fitness Training">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Football Fitness</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-fire"></i> High Intensity</span>
-                            <span><i class="far fa-clock"></i> 45 mins</span>
-                        </div>
-                        <a href="#" class="resource-button">Start Training</a>
-                    </div>
+                    <i class="fas fa-apple-alt resource-icon"></i>
+                    <h3>Meal Planning</h3>
+                    <p>Healthy recipes and balanced meal plans</p>
+                    <a href="{% url 'Dimba:mealplanning' %}" class="btn btn-success">View Recipes</a>
                 </div>
             </div>
-
-            <!-- Training Card 2 -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/a5.jpg' %}" alt="Agility Training">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Speed & Agility</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-fire"></i> Medium Intensity</span>
-                            <span><i class="far fa-clock"></i> 30 mins</span>
-                        </div>
-                        <a href="#" class="resource-button">Start Training</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Training Card 3 -->
-            <div class="col-md-4">
-                <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/a6.jpg' %}" alt="Strength Training">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Core Strength</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-fire"></i> High Intensity</span>
-                            <span><i class="far fa-clock"></i> 40 mins</span>
-                        </div>
-                        <a href="#" class="resource-button">Start Training</a>
-                    </div>
+                    <i class="fas fa-calculator resource-icon"></i>
+                    <h3>Nutrition Calculator</h3>
+                    <p>Track your daily intake and macronutrients</p>
+                    <a href="{% url 'Dimba:nutritioncalculator' %}" class="btn btn-success">Calculate Now</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div class="section-divider"></div>
-
-<!-- Books Section -->
-<section class="section-container">
-    <div class="container">
-        <h2 class="section-title">
-            <i class="fas fa-book"></i> Football Books
-        </h2>
+    <!-- Mental Health Section -->
+    <section class="section-container">
+        <h2 class="text-center mb-4">Mental Wellness</h2>
         <div class="row">
-            <!-- Book Card 1 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/b1.png' %}" alt="Football Tactics">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Modern Football Tactics</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-star"></i> 4.8/5</span>
-                            <span><i class="fas fa-book-open"></i> 250 pages</span>
-                        </div>
-                        <a href="#" class="resource-button">Read Now</a>
-                    </div>
+                    <i class="fas fa-brain resource-icon"></i>
+                    <h3>Meditation Guide</h3>
+                    <p>Mindfulness practices for mental clarity</p>
+                <a href="{% url 'Dimba:meditation' %}" class="btn btn-success">Start Meditating</a>
                 </div>
             </div>
-
-            <!-- Book Card 2 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/b2.png' %}" alt="Coaching Guide">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Complete Coaching Guide</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-star"></i> 4.9/5</span>
-                            <span><i class="fas fa-book-open"></i> 300 pages</span>
-                        </div>
-                        <a href="https://www.amazon.com/Complete-Coaching-Soccer-Systems-Tactics/" class="resource-button">Read Now</a>
-                    </div>
+                    <i class="fas fa-yoga resource-icon"></i>
+                    <h3>Stress Management</h3>
+                    <p>Techniques for reducing anxiety and stress</p>
+                    <a href="#" class="btn btn-success">Learn More</a>
                 </div>
             </div>
-
-            <!-- Book Card 3 -->
             <div class="col-md-4">
                 <div class="resource-card">
-                    <div class="resource-image">
-                        <img src="{% static 'images/b3.png' %}" alt="Sports Nutrition">
-                    </div>
-                    <div class="resource-content">
-                        <h3 class="resource-title">Football Nutrition Guide</h3>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-star"></i> 4.7/5</span>
-                            <span><i class="fas fa-book-open"></i> 200 pages</span>
-                        </div>
-                        <a href="https://www.amazon.com/ULTIMATE-SOCCER-NUTRITION-GUIDE-TRANSFORM/dp/B0CTPV3BNC" class="resource-button">Read Now</a>
-                    </div>
+                    <i class="fas fa-comments resource-icon"></i>
+                    <h3>Community Support</h3>
+                    <p>Connect with others on your wellness journey</p>
+                    <a href="#" class="btn btn-success">Join Discussion</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <!-- Interactive Courses -->
+    <section class="section-container">
+        <h2 class="text-center mb-4">Interactive Courses</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="resource-card">
+                    <i class="fas fa-chalkboard-teacher resource-icon"></i>
+                    <h3>Online Workshops</h3>
+                    <p>Live and recorded sessions with fitness experts</p>
+                    <a href="#" class="btn btn-success">Browse Workshops</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="resource-card">
+                    <i class="fas fa-video resource-icon"></i>
+                    <h3>Video Tutorials</h3>
+                    <p>Self-paced learning modules for all aspects of fitness</p>
+                    <a href="{% url 'Dimba:videos' %}" class="btn btn-success">Watch Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Advice -->
+    <section class="section-container">
+        <h2 class="text-center mb-4">Expert Advice</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="resource-card">
+                    <div class="expert-profile">
+                        <img src="{% static 'images/expert1.jpg' %}" alt="Fitness Expert" class="expert-avatar">
+                        <div>
+                            <h4>John Doe</h4>
+                            <p>Certified Fitness Trainer</p>
+                        </div>
+                    </div>
+                    <p>"Tips for maintaining consistency in your fitness journey"</p>
+                    <a href="#" class="btn btn-success">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="resource-card">
+                    <div class="expert-profile">
+                        <img src="{% static 'images/expert2.jpg' %}" alt="Nutrition Expert" class="expert-avatar">
+                        <div>
+                            <h4>Jane Smith</h4>
+                            <p>Nutritionist</p>
+                        </div>
+                    </div>
+                    <p>"Understanding macro and micronutrients for optimal health"</p>
+                    <a href="#" class="btn btn-success">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="resource-card">
+                    <div class="expert-profile">
+                        <img src="{% static 'images/expert3.jpg' %}" alt="Wellness Coach" class="expert-avatar">
+                        <div>
+                            <h4>Mike Johnson</h4>
+                            <p>Wellness Coach</p>
+                        </div>
+                    </div>
+                    <p>"Balancing physical and mental wellness in daily life"</p>
+                    <a href="#" class="btn btn-success">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}
